@@ -11,10 +11,10 @@ public class Refactoring {
         System.out.println(msg);
     }
 
-    private static String getMessage(int timeOfDay) {
+    public static String getMessage(int timeOfDay) {
         String outputMessage;
-        if (timeOfDay >= 5 && timeOfDay <= 12){
-            outputMessage = "Good Morning";
+        if (timeOfDay < 12){
+            outputMessage = "Good morning";
         }else if (timeOfDay >= 12 && timeOfDay <= 18){
             outputMessage = "Good afternoon";
         }else {
