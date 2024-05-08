@@ -2,7 +2,7 @@
 Java project for following in class
 
 
-##Questions
+## Questions
 Ticked when answered
 - [ ] What is maven?
 - [ ] How does maven differ from standard Java?
