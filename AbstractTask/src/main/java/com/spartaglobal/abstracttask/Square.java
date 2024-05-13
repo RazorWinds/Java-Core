@@ -1,9 +1,11 @@
 package com.spartaglobal.abstracttask;
 
-class Square extends Shape implements Printable{
+import java.util.Objects;
+
+public class Square extends Shape{
     private double side;
     
-    Square(double sideLength) {
+    public Square(double sideLength) {
         this.side = sideLength;
     }
     
@@ -16,5 +18,21 @@ class Square extends Shape implements Printable{
         System.out.println("I am sqaure :)");
     }
     
+    public double getSide() {
+        return side;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){return true;}
+        
+        return (obj instanceof Square aSquare)
+                && aSquare.getSide() == this.side;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.side);
+    }
     
 }

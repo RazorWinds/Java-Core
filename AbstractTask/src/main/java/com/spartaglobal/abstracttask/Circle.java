@@ -1,6 +1,6 @@
 package com.spartaglobal.abstracttask;
 
-class Circle extends Shape implements Printable{
+class Circle extends Shape{
     private double radius;
     
     Circle(double radius2) {

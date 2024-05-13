@@ -1,14 +1,11 @@
 
 import com.spartaglobal.stringexercises.StringExercises;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class StringExercisesTests {
 
@@ -53,9 +50,31 @@ public class StringExercisesTests {
         "MADam, true",
         "NotPalindrome, false",
         ",false"
-        })
+    })
     @DisplayName("Palindrome test:")
     void question4Test(String word, boolean expected) {
         Assertions.assertEquals(expected, StringExercises.isPalindrome(word));
     }
+
+    
+    
+    
+    //=========== Lab - Strings, Equals and Hashcode -------------//
+    @Test
+    public void address_GivenItsComponents_ReturnsAFormattedAddressString() {
+        var result = StringExercises.address(5, "Main Street", "Stone", "ST6 2RQ");
+        var expAddress = "5 Main Street, Stone ST6 2RQ.";
+        Assertions.assertEquals(expAddress, result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "33, 40, You got 33 out of 40: 82.5%",
+        "18, 65, You got 18 out of 65: 27.7%"
+    })
+    public void givenATestScore_Scorer_ReturnsAFormattedString(int score, int outOf, String expString) {
+        var result = StringExercises.scorer(score, outOf);
+        Assertions.assertEquals(expString, result);
+    }
+
 }

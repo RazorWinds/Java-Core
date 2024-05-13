@@ -33,12 +33,37 @@ public class StringExercises {
         if (inputStr == null || inputStr.length() == 0) {
             return false;
         }
-        StringBuilder builder = new StringBuilder(inputStr);
-
-        if (builder.reverse().toString().equalsIgnoreCase(inputStr)) {
+        String removedWhiteSpace = inputStr.replaceAll("\\s+","");
+        StringBuilder builder = new StringBuilder(removedWhiteSpace);
+        
+        
+        if (builder.reverse().toString().equalsIgnoreCase(removedWhiteSpace)) {
             return true;
         }
         return false;
+    }
+    
+    
+    
+    public static String address(int doorNum, String streetName, String area, String postcode){
+        return String.format(
+                "%d "+
+                "%s, "+
+                "%s "+
+                "%s.",
+                doorNum, streetName, area, postcode);
+    }
+    
+    public static String scorer(int scoreTotal, int scoreMax){
+        double percent = (double)scoreTotal/(double)scoreMax * 100;
+        
+        return String.format(
+                "You got " +
+                "%d " +
+                "out of " +
+                "%d: " +
+                "%1.1f%%",
+                scoreTotal, scoreMax, percent);
     }
 
 }
