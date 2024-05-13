@@ -23,7 +23,7 @@ public class Square extends Shape{
     }
     
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { 
         if (this == obj){return true;}
         
         return (obj instanceof Square aSquare)
