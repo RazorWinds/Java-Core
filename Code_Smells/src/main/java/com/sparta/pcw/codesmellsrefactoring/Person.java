@@ -13,9 +13,9 @@ public class Person {
         this.lastName = lName;
     }
 
-    public Person(String fName, String lName, int houseNum, String street, String town) {
+    public Person(String fName, String lName, Address address) {
         this(fName, lName);
-        this.address = new Address(houseNum, street, town);
+        this.address = address;
     }
 
     public int getAge() {
@@ -38,7 +38,7 @@ public class Person {
 
     @Override
     public String toString() {
-        String addressString = address.getFullAddress();
+        String addressString = (address == null) ? "Address: <no address set>" : address.getFullAddress();
 
         return String.format("%s Name: %s Age: %s. %s",
                 super.toString(),

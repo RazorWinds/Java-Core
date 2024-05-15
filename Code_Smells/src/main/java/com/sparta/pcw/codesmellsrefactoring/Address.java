@@ -39,10 +39,6 @@ public class Address {
  
     
     public String getFullAddress() {
-        var addressString = "Address: " + houseNo + " " + street + ", " + town;
-        if (addressString.equals("Address: 0 , ")) {
-            addressString = "Address: <no address set>";
-        }
-        return addressString;
+        return "Address: " + houseNo + " " + street + ", " + town;
     }
 }
