@@ -1,25 +1,23 @@
 package com.sparta.pcw.codesmellsrefactoring;
 
 // Class to represent a Person
-public class BaseClass
-{
-    private final String fn;
+public class Person {
+
+    private final String firstName;
     private final String lastName;
     private int age;
-    private String hobbies;
     private int houseNo = 0;
     private String street = "";
     private String town = "";
 
-    public BaseClass(String fName, String lName)
-    {
-        this.fn = fName;
+    public Person(String fName, String lName) {
+        this.firstName = fName;
         this.lastName = lName;
     }
 
-    public BaseClass(String fName, String lName, int hNo, String street, String town) {
+    public Person(String fName, String lName, int houdseNum, String street, String town) {
         this(fName, lName);
-        this.houseNo = hNo;
+        this.houseNo = houdseNum;
         this.street = street;
         this.town = town;
     }
@@ -35,29 +33,27 @@ public class BaseClass
     }
 
     public String getFullName() {
-        return fn + " " + lastName;
+        return firstName + " " + lastName;
     }
 
     public String move() {
         return "Walking along";
-  //      System.out.println("Can't get here");
     }
 
     @Override
-    public  String toString() {
-        var addressString = "Address: " + houseNo + " " + street + ", "  + town;
+    public String toString() {
+        var addressString = "Address: " + houseNo + " " + street + ", " + town;
 
         if (addressString.equals("Address: 0 , ")) {
             addressString = "Address: <no address set>";
         }
 
-        return String.format("%s Name: %s  %s Age: %s. %s",
-                             super.toString(),
-                             fn,
-                             lastName,
-                             age,
-                             addressString);
-}
+        return String.format("%s Name: %s Age: %s. %s",
+                super.toString(),
+                getFullName(),
+                age,
+                addressString);
+    }
 
 //    public int stupidMethod()
 //    {
