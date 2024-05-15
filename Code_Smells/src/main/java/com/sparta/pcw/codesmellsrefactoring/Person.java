@@ -6,20 +6,16 @@ public class Person {
     private final String firstName;
     private final String lastName;
     private int age;
-    private int houseNo = 0;
-    private String street = "";
-    private String town = "";
+    private Address address;
 
     public Person(String fName, String lName) {
         this.firstName = fName;
         this.lastName = lName;
     }
 
-    public Person(String fName, String lName, int houdseNum, String street, String town) {
+    public Person(String fName, String lName, int houseNum, String street, String town) {
         this(fName, lName);
-        this.houseNo = houdseNum;
-        this.street = street;
-        this.town = town;
+        this.address = new Address(houseNum, street, town);
     }
 
     public int getAge() {
@@ -42,11 +38,7 @@ public class Person {
 
     @Override
     public String toString() {
-        var addressString = "Address: " + houseNo + " " + street + ", " + town;
-
-        if (addressString.equals("Address: 0 , ")) {
-            addressString = "Address: <no address set>";
-        }
+        String addressString = address.getFullAddress();
 
         return String.format("%s Name: %s Age: %s. %s",
                 super.toString(),
@@ -54,9 +46,4 @@ public class Person {
                 age,
                 addressString);
     }
-
-//    public int stupidMethod()
-//    {
-//        return 3;
-//    }
 }
