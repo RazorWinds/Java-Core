@@ -21,18 +21,18 @@ public class LabTests {
     "0, 0",
     "100, 20"
     })
-    void test1(int maxNumber, int expectedOutput){
+    void makeFiveSetTest(int maxNumber, int expectedOutput){
         HashSet<Integer> testSet = CollectionsTasks.makeFiveSet(maxNumber);
         Assertions.assertEquals(expectedOutput, testSet.size());
     }
     
-    @ParameterizedTest(name = "{0}")
+    @ParameterizedTest(name = "{0} should have {1} long words")
     @CsvSource({
     "This has zero, 0",
     "Hello world, 2",
     "Steve, 1"
     })
-    void test2(String sentance, int expectedOutput){
+    void longWordListTest(String sentance, int expectedOutput){
         List<String> testArray = CollectionsTasks.longWordList(sentance);
         Assertions.assertEquals(expectedOutput, testArray.size());
     }
