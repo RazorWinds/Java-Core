@@ -17,7 +17,9 @@ buildNumber.properties
 .classpath
 
 
-
+# Selenium
+*.exe
+*.chromedriver
 
 
 # Compiled class file
