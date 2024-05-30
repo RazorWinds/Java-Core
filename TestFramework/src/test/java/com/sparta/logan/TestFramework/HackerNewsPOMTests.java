@@ -1,5 +1,9 @@
-package com.sparta.nam.simpletests;
+package com.sparta.logan.TestFramework;
 
+import com.sparta.logan.TestFramework.lib.pages.HomePage;
+import com.sparta.logan.TestFramework.lib.pages.LoginPage;
+import com.sparta.logan.TestFramework.lib.pages.PastPage;
+import com.sparta.logan.TestFramework.lib.pages.SearchPage;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.*;
@@ -10,7 +14,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
-public class HackerNewsTests {
+public class HackerNewsPOMTests {
     private static final String DRIVER_LOCATION = "src/test/resources/chromedriver.exe";
     private static final String BASE_URL = "https://news.ycombinator.com/";
 
@@ -64,12 +67,15 @@ public class HackerNewsTests {
         webDriver.quit();
     }
 
+
+
     @Test
     @DisplayName("Check that the webdriver works")
     public void checkWebDriver() throws InterruptedException {
         webDriver.get(BASE_URL);
-        Assertions.assertEquals("https://news.ycombinator.com/", webDriver.getCurrentUrl());
-        Assertions.assertEquals("Hacker News", webDriver.getTitle() );
+        HomePage homePage = new HomePage(webDriver);
+        Assertions.assertEquals("https://news.ycombinator.com/",homePage.getUrl());
+        Assertions.assertEquals("Hacker News", homePage.getTitle());
     }
 
 
@@ -78,21 +84,13 @@ public class HackerNewsTests {
     public void checkPastLink(){
         //Arrange
         webDriver.get(BASE_URL);
+        HomePage homePage = new HomePage(webDriver);
         // Act
-        WebElement pastLink = webDriver.findElement(By.linkText("past"));
-        pastLink.click();
-        // Assert
-        MatcherAssert.assertThat(webDriver.getCurrentUrl(), is("https://news.ycombinator.com/front"));
-        MatcherAssert.assertThat(webDriver.getTitle(), containsString("front"));
-    }
+        PastPage pastPage = homePage.goToPastPage();
 
-    @Test
-    @DisplayName("Check that the number of articles on the homepage is correct")
-    public void checkNumberOfArticlesOnHomePage(){
-        webDriver.get(BASE_URL);
-        List<WebElement> rows = webDriver.findElements(By.className("athing"));
-        int rowCount = rows.size();
-        MatcherAssert.assertThat(rowCount, is(30));
+        // Assert
+        MatcherAssert.assertThat(pastPage.getUrl(), is("https://news.ycombinator.com/front"));
+        MatcherAssert.assertThat(pastPage.getTitle(), containsString("front"));
     }
 
 
@@ -100,9 +98,9 @@ public class HackerNewsTests {
     @DisplayName("Check that we can search for java")
     void searchJava(){
         webDriver.get(BASE_URL);
-        WebElement search = webDriver.findElement(By.name("q"));
-        search.sendKeys("Java", Keys.ENTER);
-        MatcherAssert.assertThat(webDriver.getCurrentUrl(), is("https://hn.algolia.com/?q=Java"));
+        HomePage homePage = new HomePage(webDriver);
+        SearchPage searchPage = homePage.search("Java");
+        MatcherAssert.assertThat(searchPage.getUrl(), is("https://hn.algolia.com/?q=Java"));
     }
 
 
@@ -115,18 +113,24 @@ public class HackerNewsTests {
         String expectedDateAsString = expectedDate.format(formatter);
 
         webDriver.get(BASE_URL);
-        webDriver.findElement(By.linkText("past")).click();
-        webDriver.findElement(By.cssSelector("td:nth-child(2) > .pagetop")).click();
-        MatcherAssert.assertThat(webDriver.findElement(By.cssSelector("font")).getText(), CoreMatchers.is(expectedDateAsString));
+        HomePage homePage = new HomePage(webDriver);
+
+        PastPage pastPage = homePage.goToPastPage();
+
+        MatcherAssert.assertThat(pastPage.getDate(), CoreMatchers.is(expectedDateAsString));
     }
 
     @Test
     public void testLogin() {
-        webDriver.get("https://news.ycombinator.com/login");
-        webDriver.findElement(By.name("acct")).sendKeys("nonUser");
-        webDriver.findElement(By.name("pw")).sendKeys("nopassword");
-        webDriver.findElement(By.cssSelector("input:nth-child(3)")).click();
-        MatcherAssert.assertThat(webDriver.findElement(By.cssSelector("body")).getText(), CoreMatchers.containsString("Bad login"));
+
+
+        webDriver.get("https://news.ycombinator.com/");
+        HomePage homePage = new HomePage(webDriver);
+        LoginPage loginPage = homePage.goToLoginPage();
+
+        MatcherAssert.assertThat(loginPage.containsBadLoginText(), is(false));
+        loginPage.enterIncorrectDetails();
+        MatcherAssert.assertThat(loginPage.containsBadLoginText(), is(true));
     }
 
 
