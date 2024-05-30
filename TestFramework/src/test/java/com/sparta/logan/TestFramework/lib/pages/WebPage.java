@@ -10,11 +10,11 @@ public abstract class WebPage {
     protected final WebDriverWait wait;
 
     public WebPage(WebDriver webDriver) {
+        this.webDriver = webDriver;
         if (!isCorrectPage()) {
             throw new IllegalStateException("This is not "+ this.getClass().getName()+", " +
                     "current page is: " + webDriver.getCurrentUrl());
         }
-        this.webDriver = webDriver;
         this.wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
     }
 
