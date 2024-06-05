@@ -3,6 +3,7 @@ package com.sparta.nam.TestFramework;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.sparta.nam.TestFramework.lib.pages.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,5 +141,25 @@ public class HackerNewsPOMTests {
         webDriver.get("https://news.ycombinator.com");
         List<WebElement>  listItems = webDriver.findElements(By.className("rank"));
         MatcherAssert.assertThat(listItems.size(), is(30));
+    }
+
+    @Test
+    @DisplayName("Check that the link to the past page works")
+    public void checkPastLinkMock() {
+        // Arrange
+        WebDriver webDriverMock = Mockito.mock(WebDriver.class);
+        Mockito.when(webDriverMock.getTitle()).thenReturn("Hacker News");
+        Mockito.when(webDriverMock.getCurrentUrl()).thenReturn("https://news.ycombinator.com/front");
+        Mockito.when(webDriverMock.getTitle()).thenReturn("front | Hacker News");
+
+        WebElement webElementMock = Mockito.mock(WebElement.class);
+        Mockito.when(webElementMock.findElement(Mockito.any(By.class))).thenReturn(webElementMock);
+
+        HomePage homePage = new HomePage(webDriver);
+        // Act
+        PastPage pastPage = homePage.goToPastPage();
+        // Assert
+        MatcherAssert.assertThat(pastPage.getUrl(), is("https://news.ycombinator.com/front"));
+        MatcherAssert.assertThat(pastPage.getTitle(), containsString("front"));
     }
 }
